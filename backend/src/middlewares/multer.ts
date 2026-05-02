@@ -21,6 +21,6 @@ const createStorage = (subDir: string) => {
 export const avatarUpload = multer({
   storage: createStorage('uploads/users/avatar'),
 });
-export const cocktailUpload = multer({
-  storage: createStorage('uploads/cocktails'),
+export const establishmentUpload = multer({
+  storage: createStorage('uploads/establishment'),
 });

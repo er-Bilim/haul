@@ -13,7 +13,7 @@ const EstablishmentSchema = new Schema({
   },
   mainPhoto: {
     type: String,
-    required: true,
+    default: null,
   },
   owner: {
     type: Schema.Types.ObjectId,

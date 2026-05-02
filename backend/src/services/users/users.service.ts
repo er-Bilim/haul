@@ -1,13 +1,13 @@
-import type { HydratedDocument } from "mongoose";
+import type { HydratedDocument } from 'mongoose';
 import type {
   IUser,
   IUserReg,
   IUserSave,
   IUserSend,
-} from "../../types/user/user.types.ts";
-import User from "../../model/user/User.ts";
-import jwt from "jsonwebtoken";
-import config from "../../config.ts";
+} from '../../types/user/user.types.ts';
+import User from '../../model/user/User.ts';
+import jwt from 'jsonwebtoken';
+import config from '../../config.ts';
 
 interface IUsersService {
   registration: (
@@ -44,7 +44,10 @@ const UsersService: IUsersService = {
   },
 
   async authentication(username, password) {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).populate(
+      'establishments',
+      '-owner -images -reviews -__v',
+    );
     const data = {
       user,
       isMatch: false,
@@ -73,7 +76,7 @@ const UsersService: IUsersService = {
   },
 
   async logout(user) {
-    user.refreshToken = "";
+    user.refreshToken = '';
     await user.save();
   },
 
