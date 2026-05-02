@@ -28,6 +28,8 @@ const ImageService = {
     await User.findByIdAndUpdate(deletedImage.user, {
       $pull: { images: deletedImage._id },
     });
+
+    return deletedImage;
   },
 };
 

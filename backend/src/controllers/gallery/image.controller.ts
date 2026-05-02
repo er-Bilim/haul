@@ -5,6 +5,7 @@ import { isValidObjectId, Types } from 'mongoose';
 import EstablishmentService from '../../services/establishment/establishment.service.ts';
 
 import ImageService from '../../services/gallery/image.service.ts';
+import deleteImage from '../../utils/deleteImage.ts';
 
 const ImageController = {
   create: async (req: Request, res: Response, next: NextFunction) => {
@@ -64,12 +65,13 @@ const ImageController = {
     try {
       const deletedImage = await ImageService.delete(id);
 
-      if (deletedImage === null) {
+      if (!deletedImage) {
         return res.status(404).json({
           error: 'Image not found',
         });
       }
 
+      deleteImage({ image: deletedImage.toObject().url });
       return res.json({
         message: 'Image deleted!',
       });
