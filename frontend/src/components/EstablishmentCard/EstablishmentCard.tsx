@@ -7,12 +7,13 @@ import { getImage } from '@/utils/getImage';
 import type { IEstablishment } from '@/types/establishment.types';
 import { useEstablishmentStore } from '@/features/place/usePlaceStore';
 import { useUserStore } from '@/features/users/userStore';
+import type { FC } from 'react';
 
 interface Props {
   establishment: IEstablishment;
 }
 
-const EstablishmentCard = ({ establishment }: Props) => {
+const EstablishmentCard: FC<Props> = ({ establishment }) => {
   const { _id, name, mainPhoto, ratings, reviews, images } = establishment;
   const { user } = useUserStore((state) => state);
   const { remove } = useEstablishmentStore((state) => state);

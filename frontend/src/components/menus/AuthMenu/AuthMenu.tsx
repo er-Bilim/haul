@@ -5,6 +5,7 @@ import UserMenu from '../UserMenu/UserMenu';
 import Typography from '@mui/material/Typography';
 import { green } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
+import { getImage } from '@/utils/getImage';
 
 const AuthMenu = () => {
   const { user } = useUserStore((state) => state);
@@ -43,6 +44,23 @@ const AuthMenu = () => {
               }}
             >
               <Typography>{user.user.displayName}</Typography>
+            </Box>
+            <Box
+              sx={{
+                width: '50px',
+                height: '50px',
+                borderRadius: '100%',
+                overflow: 'hidden',
+              }}
+            >
+              <Box
+                component={'img'}
+                src={getImage(user.user.avatar)}
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                }}
+              />
             </Box>
           </Box>
         </Box>

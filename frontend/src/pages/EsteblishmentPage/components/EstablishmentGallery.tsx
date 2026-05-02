@@ -34,7 +34,14 @@ const EstablishmentGallery: FC<Props> = ({ images, establishmentId }) => {
       </Typography>
       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
         {images.map((img) => (
-          <Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 2
+            }}
+          >
             <Box
               key={img._id}
               component="img"
