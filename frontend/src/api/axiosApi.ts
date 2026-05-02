@@ -10,7 +10,7 @@ axiosApi.defaults.withCredentials = true;
 
 const logoutAndRedirect = async () => {
   try {
-    await axios.delete(`${API_URL}/api/users/sessions`, {
+    await axios.delete(`${API_URL}/users/sessions`, {
       withCredentials: true,
       timeout: 2000,
     });
@@ -38,13 +38,13 @@ axiosApi.interceptors.response.use(
       error.response?.status === 401 &&
       originalRequest &&
       !originalRequest._retry &&
-      originalRequest.url !== 'api/users/token'
+      originalRequest.url !== 'users/token'
     ) {
       originalRequest._retry = true;
 
       try {
         await axios.post(
-          `${API_URL}/api/users/token`,
+          `${API_URL}/users/token`,
           {},
           { withCredentials: true },
         );
