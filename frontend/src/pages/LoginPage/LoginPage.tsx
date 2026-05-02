@@ -120,7 +120,7 @@ const LoginPage = () => {
                 marginLeft: 1,
               }}
             >
-              Login
+              Sign up
             </Box>
           </Typography>
         </Paper>
