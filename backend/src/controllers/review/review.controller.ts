@@ -63,7 +63,7 @@ const ReviewController = {
   },
 
   delete: async (req: Request, res: Response, next: NextFunction) => {
-    const id = req.params.id as string;
+    const id = req.params.reviewId as string;
 
     if (!id) {
       return res.status(400).json({

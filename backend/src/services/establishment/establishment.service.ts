@@ -18,9 +18,13 @@ const EstablishmentService = {
   },
 
   getEstablishmentByID: async (id: string) => {
-    const establishment = await Establishment.findById(id).populate<{
-      reviews: IReview[];
-    }>('reviews images');
+    const establishment = await Establishment.findById(id)
+      .populate<{ reviews: IReview[] }>({
+        path: 'reviews',
+        populate: { path: 'author', select: 'displayName' },
+        options: { sort: { createdAt: -1 } },
+      })
+      .populate('images');
 
     if (!establishment) return null;
 

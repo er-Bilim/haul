@@ -30,10 +30,17 @@ establishmentsRouter.delete(
 establishmentsRouter.post('/:id/reviews', auth, ReviewController.create);
 
 establishmentsRouter.delete(
-  '/:id/reviews',
+  '/:id/reviews/:reviewId',
   auth,
   permit('admin'),
   ReviewController.delete,
+);
+
+establishmentsRouter.delete(
+  '/:id/images/:imageId',
+  auth,
+  permit('admin'),
+  ImageController.delete,
 );
 
 establishmentsRouter.post(
@@ -41,13 +48,6 @@ establishmentsRouter.post(
   auth,
   reviewImageUpload.single('url'),
   ImageController.create,
-);
-
-establishmentsRouter.delete(
-  '/:id/images',
-  auth,
-  permit('admin'),
-  ImageController.delete,
 );
 
 export default establishmentsRouter;
