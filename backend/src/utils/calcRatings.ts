@@ -24,19 +24,19 @@ const calculateRatings = (reviews: IReview[]) => {
   );
 
   const lengthReview = reviews.length;
-  const qualityOfFoodRatingAvg = sum.qualityOfFood / lengthReview;
-  const serviceQualityRatingAvg = sum.serviceQuality / lengthReview;
-  const interiorRatingAvg = sum.interior / lengthReview;
+  const qualityOfFood = sum.qualityOfFood / lengthReview;
+  const serviceQuality = sum.serviceQuality / lengthReview;
+  const interior = sum.interior / lengthReview;
 
   return {
-    qualityOfFoodRatingAvg: Math.round(qualityOfFoodRatingAvg * 10) / 10,
-    serviceQualityRatingAvg: Math.round(serviceQualityRatingAvg * 10) / 10,
-    interior: Math.round(interiorRatingAvg * 10) / 10,
+    qualityOfFood: Math.round(qualityOfFood * 10) / 10,
+    serviceQuality: Math.round(serviceQuality * 10) / 10,
+    interior: Math.round(interior * 10) / 10,
     overall:
       Math.round(
-        ((qualityOfFoodRatingAvg +
-          serviceQualityRatingAvg +
-          interiorRatingAvg) /
+        ((qualityOfFood +
+          serviceQuality +
+          interior) /
           3) *
           10,
       ) / 10,

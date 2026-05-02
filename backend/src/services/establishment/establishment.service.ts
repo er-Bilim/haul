@@ -26,7 +26,7 @@ const EstablishmentService = {
 
     const ratings = calculateRatings(establishment.reviews);
 
-    return { ...establishment.toObject, ratings };
+    return { ...establishment.toObject(), ratings };
   },
 
   create: async (data: IEstablishmentSave) => {
