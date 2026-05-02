@@ -4,7 +4,7 @@ import { isValidObjectId } from 'mongoose';
 import isValidationError from '../../utils/validationError.ts';
 import deleteImage from '../../utils/deleteImage.ts';
 import type { RequestWithUser } from '../../middlewares/auth.ts';
-import User from '../../model/user/User.ts';
+import UsersService from '../../services/users/users.service.ts';
 
 const EstablishmentController = {
   getAll: async (_req: Request, res: Response, next: NextFunction) => {
@@ -31,7 +31,14 @@ const EstablishmentController = {
       }
 
       const establishment = await EstablishmentService.getEstablishmentByID(id);
-      return establishment;
+
+      if (!establishment) {
+        return res.status(404).json({
+          error: 'Establishment not found',
+        });
+      }
+
+      return res.json(establishment);
     } catch (error) {
       return next(error);
     }
@@ -60,9 +67,7 @@ const EstablishmentController = {
 
     try {
       const establishment = await EstablishmentService.create(correctData);
-      await User.findByIdAndUpdate(user._id, {
-        $push: { establishments: establishment._id },
-      });
+      await UsersService.updateEstablishments(user._id, establishment._id);
       return res.json({
         message: 'Created successfully!',
         establishment,

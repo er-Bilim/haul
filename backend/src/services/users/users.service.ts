@@ -1,4 +1,4 @@
-import type { HydratedDocument } from 'mongoose';
+import type { HydratedDocument, Types } from 'mongoose';
 import type {
   IUser,
   IUserReg,
@@ -26,6 +26,14 @@ interface IUsersService {
   getUserByRefreshToken: (refreshToken: string) => Promise<IUserSend | null>;
   getUserByAccessToken: (accessToken: string) => Promise<IUserSend | null>;
   generateUserAccessToken: (user_id: string) => Promise<string | null>;
+  updateReviews: (
+    id: Types.ObjectId,
+    reviewID: Types.ObjectId,
+  ) => Promise<void>;
+  updateEstablishments: (
+    id: Types.ObjectId,
+    establishmentID: Types.ObjectId,
+  ) => Promise<void>;
 }
 
 const UsersService: IUsersService = {
@@ -56,19 +64,12 @@ const UsersService: IUsersService = {
     };
 
     if (user) {
-      const refreshToken: string = user.generateRefreshToken();
-      const accessToken: string = user.generateAccessToken();
-      await user.save();
-      data.user = user;
-
       const isMatch: boolean = await user.checkPassword(password);
       if (isMatch) {
-        return {
-          user,
-          isMatch,
-          refreshToken,
-          accessToken,
-        };
+        const refreshToken: string = user.generateRefreshToken();
+        const accessToken: string = user.generateAccessToken();
+        await user.save();
+        return { user, isMatch, refreshToken, accessToken };
       }
     }
 
@@ -118,6 +119,18 @@ const UsersService: IUsersService = {
 
     const accessToken = user.generateAccessToken();
     return accessToken;
+  },
+
+  updateReviews: async (id, reviewID) => {
+    await User.findByIdAndUpdate(id, {
+      $push: { reviews: reviewID },
+    });
+  },
+
+  updateEstablishments: async (id, establishmentID) => {
+    await User.findByIdAndUpdate(id, {
+      $push: { reviews: establishmentID },
+    });
   },
 };
 

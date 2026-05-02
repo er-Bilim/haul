@@ -32,7 +32,6 @@ const ReviewSchema = new Schema({
   establishment: {
     type: Schema.Types.ObjectId,
     ref: 'Establishment',
-    required: true,
   },
 });
 

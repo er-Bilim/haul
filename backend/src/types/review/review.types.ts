@@ -9,3 +9,12 @@ export interface IReview {
   author: Types.ObjectId;
   establishment: Types.ObjectId;
 }
+
+export interface IReviewSave {
+  text: string;
+  qualityOfFood: number;
+  serviceQuality: number;
+  interior: number;
+  author: Types.ObjectId;
+  establishment: Types.ObjectId;
+}

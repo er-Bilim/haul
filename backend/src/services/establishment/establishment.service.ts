@@ -1,3 +1,4 @@
+import type { Types } from 'mongoose';
 import { Establishment } from '../../model/establishment/Establishment.ts';
 import type { IEstablishmentSave } from '../../types/establishment/establishment.types.ts';
 import type { IReview } from '../../types/review/review.types.ts';
@@ -16,11 +17,15 @@ const EstablishmentService = {
   },
 
   getEstablishmentByID: async (id: string) => {
-    const establishment = await Establishment.findById(id).populate(
-      'reviews',
-      'images',
-    );
-    return establishment;
+    const establishment = await Establishment.findById(id).populate<{
+      reviews: IReview[];
+    }>('reviews images');
+
+    if (!establishment) return null;
+
+    const ratings = calculateRatings(establishment.reviews);
+
+    return { ...establishment.toObject, ratings };
   },
 
   create: async (data: IEstablishmentSave) => {
@@ -32,6 +37,12 @@ const EstablishmentService = {
   delete: async (id: string) => {
     const deletedEstablished = await Establishment.findByIdAndDelete(id);
     return deletedEstablished;
+  },
+
+  updateReviews: async (id: Types.ObjectId, reviewID: Types.ObjectId) => {
+    await Establishment.findByIdAndUpdate(id, {
+      $push: { reviews: reviewID },
+    });
   },
 };
 
