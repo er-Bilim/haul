@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FC } from 'react';
 import {
   Box,
   Button,
@@ -16,7 +16,7 @@ interface Props {
 
 const ratingOptions = [1, 2, 3, 4, 5];
 
-const AddReviewForm = ({ establishmentId }: Props) => {
+const AddReviewForm: FC<Props> = ({ establishmentId }) => {
   const { addReview, reviewLoading } = useEstablishmentStore((state) => state);
   const [text, setText] = useState('');
   const [qualityOfFood, setQualityOfFood] = useState(5);

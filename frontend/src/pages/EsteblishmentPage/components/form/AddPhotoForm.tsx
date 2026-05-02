@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, type FC } from 'react';
 import { Box, Button, Divider, Typography } from '@mui/material';
 import { orange } from '@mui/material/colors';
 import { useEstablishmentStore } from '@/features/place/usePlaceStore';
@@ -7,7 +7,7 @@ interface Props {
   establishmentId: string;
 }
 
-const AddPhotoForm = ({ establishmentId }: Props) => {
+const AddPhotoForm: FC<Props> = ({ establishmentId }) => {
   const { addImage, imageLoading } = useEstablishmentStore((state) => state);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);

@@ -1,10 +1,12 @@
-import { Box, Typography, Rating } from '@mui/material';
+import { Box, Typography, Rating, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import { orange, green } from '@mui/material/colors';
 import { getImage } from '@/utils/getImage';
 import type { IEstablishment } from '@/types/establishment.types';
+import { useEstablishmentStore } from '@/features/place/usePlaceStore';
+import { useUserStore } from '@/features/users/userStore';
 
 interface Props {
   establishment: IEstablishment;
@@ -12,6 +14,8 @@ interface Props {
 
 const EstablishmentCard = ({ establishment }: Props) => {
   const { _id, name, mainPhoto, ratings, reviews, images } = establishment;
+  const { user } = useUserStore((state) => state);
+  const { remove } = useEstablishmentStore((state) => state);
 
   return (
     <Box
@@ -98,6 +102,21 @@ const EstablishmentCard = ({ establishment }: Props) => {
             </Typography>
           </Box>
         </Box>
+        {user?.user.role === 'admin' && (
+          <Button
+            size="large"
+            onClick={() => remove(establishment._id)}
+            sx={{
+              color: 'error.main',
+              textTransform: 'none',
+              width: '100%',
+              textAlign: 'center',
+              marginTop: 3,
+            }}
+          >
+            Delete
+          </Button>
+        )}
       </Box>
     </Box>
   );

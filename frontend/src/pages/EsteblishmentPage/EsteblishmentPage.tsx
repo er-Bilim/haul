@@ -64,9 +64,9 @@ const EstablishmentPage = () => {
         />
       </Box>
 
-      <EstablishmentGallery images={images} />
+      <EstablishmentGallery images={images} establishmentId={id} />
       <EstablishmentRatings ratings={ratings} />
-      <EstablishmentReviews reviews={reviews} />
+      <EstablishmentReviews reviews={reviews} establishmentId={id} />
 
       {id && (
         <>

@@ -140,7 +140,7 @@ const RegisterPage = () => {
                 color: green[900],
               }}
             >
-              {registerLoading ? 'Loading...' : 'Register'}
+              Sign up
             </Button>
           </Box>
 

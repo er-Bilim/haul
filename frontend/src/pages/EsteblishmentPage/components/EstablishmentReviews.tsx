@@ -1,12 +1,19 @@
+import { useEstablishmentStore } from '@/features/place/usePlaceStore';
+import { useUserStore } from '@/features/users/userStore';
 import type { IReview } from '@/types/establishment.types';
-import { Box, Rating, Typography } from '@mui/material';
+import { Box, Button, Rating, Typography } from '@mui/material';
 import { orange, green } from '@mui/material/colors';
+import type { FC } from 'react';
 
 interface Props {
   reviews: IReview[];
+  establishmentId?: string;
 }
 
-const EstablishmentReviews = ({ reviews }: Props) => {
+const EstablishmentReviews: FC<Props> = ({ reviews, establishmentId }) => {
+  const { user } = useUserStore((state) => state);
+  const { removeReview } = useEstablishmentStore((state) => state);
+
   if (!reviews?.length) return null;
 
   return (
@@ -87,6 +94,22 @@ const EstablishmentReviews = ({ reviews }: Props) => {
               </Typography>
             </Box>
           ))}
+          {user?.user.role === 'admin' && (
+            <Button
+              size="large"
+              onClick={() =>
+                establishmentId && removeReview(establishmentId, review._id)
+              }
+              sx={{
+                color: 'error.main',
+                textTransform: 'none',
+                textAlign: 'left',
+                marginTop: 3,
+              }}
+            >
+              Delete
+            </Button>
+          )}
         </Box>
       ))}
     </Box>
