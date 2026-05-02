@@ -3,6 +3,7 @@ import { Establishment } from '../../model/establishment/Establishment.ts';
 import type { IEstablishmentSave } from '../../types/establishment/establishment.types.ts';
 import type { IReview } from '../../types/review/review.types.ts';
 import calculateRatings from '../../utils/calcRatings.ts';
+import User from '../../model/user/User.ts';
 
 const EstablishmentService = {
   getAll: async () => {
@@ -36,6 +37,10 @@ const EstablishmentService = {
 
   delete: async (id: string) => {
     const deletedEstablished = await Establishment.findByIdAndDelete(id);
+
+    await User.findByIdAndUpdate(deletedEstablished?.owner, {
+      $pull: { establishments: deletedEstablished?._id },
+    });
     return deletedEstablished;
   },
 
