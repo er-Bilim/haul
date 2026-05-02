@@ -43,9 +43,6 @@
     "noEmitOnError": true,
     "esModuleInterop": true,
     "rewriteRelativeImportExtensions": true,
-    "allowImportingTsExtensions": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "allowImportingTsExtensions": true
   }
 }
