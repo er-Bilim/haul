@@ -43,11 +43,11 @@ const UsersController: IUsersController = {
   },
 
   async authentication(req, res, next) {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
       const { user, refreshToken, accessToken, isMatch } =
-        await UsersService.authentication(username, password);
+        await UsersService.authentication(email, password);
 
       if (!user) {
         return res.status(404).json({

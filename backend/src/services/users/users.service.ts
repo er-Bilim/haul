@@ -51,8 +51,8 @@ const UsersService: IUsersService = {
     };
   },
 
-  async authentication(username, password) {
-    const user = await User.findOne({ username }).populate(
+  async authentication(email, password) {
+    const user = await User.findOne({ email }).populate(
       'establishments',
       '-owner -images -reviews -__v',
     );

@@ -26,7 +26,7 @@ const run = async () => {
       email: 'admin@gmail.com',
       displayName: 'admin',
       avatar: `${fixtureImagesPath}/beaver.png`,
-      password: 'admin',
+      password: 'admin123',
       role: 'admin',
     },
     {
