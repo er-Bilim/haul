@@ -24,3 +24,6 @@ export const avatarUpload = multer({
 export const establishmentUpload = multer({
   storage: createStorage('uploads/establishment'),
 });
+export const reviewImageUpload = multer({
+  storage: createStorage('uploads/reviews/images'),
+});

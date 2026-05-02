@@ -60,6 +60,12 @@ const UserSchema = new Schema<HydratedDocument<IUser>, UserModel, UserMethods>({
       ref: 'Establishment',
     },
   ],
+  images: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Image',
+    },
+  ],
 });
 
 UserSchema.pre('save', async function () {

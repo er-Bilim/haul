@@ -1,9 +1,13 @@
 import { Router } from 'express';
 import EstablishmentController from '../../controllers/establishment/establishment.controller.ts';
 import auth from '../../middlewares/auth.ts';
-import { establishmentUpload } from '../../middlewares/multer.ts';
+import {
+  establishmentUpload,
+  reviewImageUpload,
+} from '../../middlewares/multer.ts';
 import permit from '../../middlewares/permit.ts';
 import ReviewController from '../../controllers/review/review.controller.ts';
+import ImageController from '../../controllers/gallery/image.controller.ts';
 
 const establishmentsRouter = Router();
 
@@ -26,10 +30,24 @@ establishmentsRouter.delete(
 establishmentsRouter.post('/:id/reviews', auth, ReviewController.create);
 
 establishmentsRouter.delete(
-  '/reviews/:id',
+  '/:id/reviews',
   auth,
   permit('admin'),
   ReviewController.delete,
+);
+
+establishmentsRouter.post(
+  '/:id/images',
+  auth,
+  reviewImageUpload.single('url'),
+  ImageController.create,
+);
+
+establishmentsRouter.delete(
+  '/:id/images',
+  auth,
+  permit('admin'),
+  ImageController.delete,
 );
 
 export default establishmentsRouter;

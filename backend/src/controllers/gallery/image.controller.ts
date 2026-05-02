@@ -1,20 +1,16 @@
 import type { NextFunction, Request, Response } from 'express';
-import type { IReviewSave } from '../../types/review/review.types.ts';
 import type { RequestWithUser } from '../../middlewares/auth.ts';
-import ReviewService from '../../services/review/review.service.ts';
-import User from '../../model/user/User.ts';
-import EstablishmentService from '../../services/establishment/establishment.service.ts';
-import UsersService from '../../services/users/users.service.ts';
 import isValidationError from '../../utils/validationError.ts';
 import { isValidObjectId, Types } from 'mongoose';
+import EstablishmentService from '../../services/establishment/establishment.service.ts';
 
-const ReviewController = {
+import ImageService from '../../services/gallery/image.service.ts';
+
+const ImageController = {
   create: async (req: Request, res: Response, next: NextFunction) => {
     const establishmentID = req.params.id as string;
 
     try {
-      const { user } = req as RequestWithUser;
-
       if (!isValidObjectId(establishmentID)) {
         return res.status(400).json({
           error: 'Invalid establishment id',
@@ -30,28 +26,23 @@ const ReviewController = {
         });
       }
 
-      const body: IReviewSave = req.body;
+      const { user } = req as RequestWithUser;
+
+      const url = req.file
+        ? `uploads/reviews/images/${req.file.filename}`
+        : null;
 
       const establishedObjectID = new Types.ObjectId(establishmentID);
-      const correctData: IReviewSave = {
-        text: body.text,
-        qualityOfFood: Number(body.qualityOfFood),
-        serviceQuality: Number(body.serviceQuality),
-        interior: Number(body.interior),
-        author: user._id,
+      const correctData = {
+        url,
+        user: user._id,
         establishment: establishedObjectID,
       };
 
-      const review = await ReviewService.create(correctData);
-      await User.findByIdAndUpdate(user._id, {
-        $push: { reviews: review._id },
-      });
-      await EstablishmentService.updateReviews(establishedObjectID, review._id);
-      await UsersService.updateReviews(user._id, review._id);
-
+      const image = await ImageService.create(correctData);
       return res.json({
-        message: 'Review accepted',
-        review,
+        message: 'Created successfully!',
+        image,
       });
     } catch (error) {
       if (isValidationError(error)) {
@@ -71,16 +62,16 @@ const ReviewController = {
       });
     }
     try {
-      const deletedReview = await ReviewService.delete(id);
+      const deletedImage = await ImageService.delete(id);
 
-      if (deletedReview === null) {
+      if (deletedImage === null) {
         return res.status(404).json({
-          error: 'Review not found',
+          error: 'Image not found',
         });
       }
 
       return res.json({
-        message: 'Review deleted!',
+        message: 'Image deleted!',
       });
     } catch (error) {
       if (isValidationError(error)) {
@@ -92,4 +83,4 @@ const ReviewController = {
   },
 };
 
-export default ReviewController;
+export default ImageController;

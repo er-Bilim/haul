@@ -129,7 +129,7 @@ const UsersService: IUsersService = {
 
   updateEstablishments: async (id, establishmentID) => {
     await User.findByIdAndUpdate(id, {
-      $push: { reviews: establishmentID },
+      $push: { establishments: establishmentID },
     });
   },
 };
