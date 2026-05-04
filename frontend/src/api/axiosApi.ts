@@ -38,7 +38,8 @@ axiosApi.interceptors.response.use(
       error.response?.status === 401 &&
       originalRequest &&
       !originalRequest._retry &&
-      originalRequest.url !== 'users/token'
+      originalRequest.url !== '/users/token' &&
+      originalRequest.url !== '/users/sessions'
     ) {
       originalRequest._retry = true;
 
